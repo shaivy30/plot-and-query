@@ -70,6 +70,9 @@ article {
 
       function addMarker(){
         
+        if(!document.getElementById("geoData").value){
+          alert("Please upload geo location data");
+        }
         var geoData = JSON.parse(document.getElementById("geoData").value);
         
 
@@ -85,6 +88,48 @@ article {
            marker.setMap(map);
         }
       }
+
+      function addMarkerWithFilters(){
+        var fromDate = document.getElementById("fromDate").value;
+        if(!fromDate){
+          alert("Please fill the from date");
+        }
+        var toDate = document.getElementById("toDate").value;
+        if(!fromDate){
+          alert("Please fill the to date");
+        }
+
+        var fd = new Date(fromDate).getTime();
+        var td = new Date(toDate).getTime();
+
+        console.log("**************** ---- fd:" + fd + " td:" + td);
+
+        if(!document.getElementById("geoData").value){
+          alert("Please upload geo location data");
+        }
+        
+        var geoData = JSON.parse(document.getElementById("geoData").value);
+        
+        for(var i=0;i<geoData.locations.length;i++){
+
+          if(!(geoData.locations[i].timestampMs <=td && geoData.locations[i].timestampMs>=fd)){
+            continue;
+          }
+
+           var latLong = new google.maps.LatLng(geoData.locations[i].latitudeE7/1E7,geoData.locations[i].longitudeE7/1E7);
+            
+          //  var title = geoData.locations[i].activity[0].type;
+          //  var latLong = new google.maps.LatLng(20.593684+i , 78.96288000000004+i)
+
+            var marker = new google.maps.Marker({
+                position: latLong
+            });
+
+           marker.setMap(map);
+
+      }
+    }
+
     </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key= AIzaSyBQSL5tVuZg3hKINePeRXtGus2I93sHJyo&callback=initMap">
@@ -114,10 +159,21 @@ article {
 	</form>
 	<br>
 	<br>
-	Timeline: 
+	From Date: 
 	<br>
-	<input type="date">
-	<br><br><br><br><br><br><br><br>
+	<input type="date" id="fromDate">
+	<br> <br>
+
+ To Date: 
+  <br>
+  <input type="date" id = "toDate">
+  <br>
+
+  <br><br>
+
+<input type="button" value="Plot data" onclick="addMarkerWithFilters()">
+
+  <br><br><br><br><br>
 </nav>
 
 <article>
