@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+div.container {
+    width: 100%;
+	height: 580px;
+    border: 1px solid gray;
+}
+
+div.timeline {
+	width:100%
+	border: 0px solid gray;
+	
+}
+
+header, footer {
+font-weight: 300;
+
+    text-align: left;
+    font-size: 14px;
+    padding: 0.5em;
+    color: white;
+    background-color: #4682B4;
+    clear: left;
+    text-align: center;
+}
+
+nav {
+    float: left;
+    max-width: 400px;
+    margin: 0;
+    padding: 1em;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+   
+nav ul a {
+    text-decoration: none;
+}
+
+article {
+	height: 540px;
+    margin-left: 170px;
+    border-left: 1px solid gray;
+    padding: 1em;
+    overflow: hidden;
+}
+</style>
+
+      <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+
+    <script>
+    var map;
+      function initMap() {
+        var uluru = {lat: 20.593684 , lng: 78.96288000000004 };
+
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: uluru
+        });
+     /*   var marker = new google.maps.Marker({
+          position: uluru,
+          map: map
+        });*/
+      }
+
+      function addMarker(){
+        
+        var geoData = JSON.parse(document.getElementById("geoData").value);
+        
+
+        for(var i=0;i<geoData.locations.length;i++){
+           var latLong = new google.maps.LatLng(geoData.locations[i].latitudeE7/1E7,geoData.locations[i].longitudeE7/1E7);
+            
+          //  var latLong = new google.maps.LatLng(20.593684+i , 78.96288000000004+i)
+
+            var marker = new google.maps.Marker({
+                position: latLong
+            });
+
+           marker.setMap(map);
+        }
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key= AIzaSyBQSL5tVuZg3hKINePeRXtGus2I93sHJyo&callback=initMap">
+    </script>
+
+
+</head>
+<body id="mainbody" style="display: block; background-color: rgb(236, 236, 236);">
+
+
+<div class="container">
+<header>
+   <h2>PLOT AND QUERY  </h2>
+</header>
+
+  
+<nav>
+	<form>
+	<p> <i>Name: </i></p>
+	<input type="text">
+    <br>
+	<p> <i>Upload Data: </i></p>
+
+	<input type="text" id="geoData" /><br>
+	<br>
+	<input type="button" value="Plot data" onclick="addMarker()">
+	</form>
+	<br>
+	<br>
+	Timeline: 
+	<br>
+	<input type="date">
+	<br><br><br><br><br><br><br><br>
+</nav>
+
+<article>
+<div id="map" style="width:100%;height:480px;"></div>
+</article>
+
+</div>
+
+<footer>
+ <h2> HACKATHON</h2>
+</footer>
+
+
+
+
+
+</body>
+</html>
