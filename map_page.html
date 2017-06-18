@@ -4,14 +4,14 @@
 <style>
 div.container {
     width: 100%;
-	height: 580px;
+  height: 580px;
     border: 1px solid gray;
 }
 
 div.timeline {
-	width:100%
-	border: 0px solid gray;
-	
+  width:100%
+  border: 0px solid gray;
+  
 }
 
 header, footer {
@@ -24,6 +24,24 @@ font-weight: 300;
     background-color: #4682B4;
     clear: left;
     text-align: center;
+}
+
+body{
+  font-family: Sans-serif ;
+  font-weight: bold;
+}
+
+.button {
+    background-color: #4682B4;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
 }
 
 nav {
@@ -43,7 +61,7 @@ nav ul a {
 }
 
 article {
-	height: 540px;
+  height: 540px;
     margin-left: 170px;
     border-left: 1px solid gray;
     padding: 1em;
@@ -55,13 +73,17 @@ article {
 
     <script>
     var map;
+    
       function initMap() {
+        
+
         var uluru = {lat: 20.593684 , lng: 78.96288000000004 };
 
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: 4,
           center: uluru
         });
+    
      /*   var marker = new google.maps.Marker({
           position: uluru,
           map: map
@@ -70,7 +92,7 @@ article {
 
       function addMarker(){
         
-        
+
         if(!document.getElementById("geoData").value){
           alert("Please upload geo location data");
         }
@@ -83,11 +105,39 @@ article {
           //  var latLong = new google.maps.LatLng(20.593684+i , 78.96288000000004+i)
 
             var marker = new google.maps.Marker({
-                position: latLong
+                position: latLong,
+                 title: 'Click to zoom',
+                 animation: google.maps.Animation.DROP
+                 //google.maps.event.trigger(markers[i], 'click');
             });
 
            marker.setMap(map);
+           google.maps.event.addListener(marker, "click", function (event) {
+            map.panTo(this.getPosition());
+            map.setZoom(9);
+
+            //var contentx = this.position;
+
+                  alert(this.position);
+
+              //     var infowindow = new google.maps.InfoWindow({
+                //    content : contentx
+                  // });
+// infowindow.open(map, marker);
+
+});
+
+          //google.maps.event.trigger(markers[i], 'click');
+/*google.maps.event.addListener(marker, 'click', (function(marker, i) {
+     return function() {
+     infowindow.setContent(locations[i][0]);
+     infowindow.open(map, marker);
+    }
+ })(marker, i));
+*/
+   
         }
+
       }
 
       function addMarkerWithFilters(){
@@ -96,7 +146,7 @@ article {
           alert("Please fill the from date");
         }
         var toDate = document.getElementById("toDate").value;
-        if(!fromDate){
+        if(!toDate){
           alert("Please fill the to date");
         }
 
@@ -131,6 +181,20 @@ article {
       }
     }
 
+  /* map.addListener('center_changed', function() {
+          // 3 seconds after the center of the map has changed, pan back to the
+          // marker.
+          window.setTimeout(function() {
+            map.panTo(marker.getPosition());
+          }, 3000);
+        });
+
+        marker.addListener('click', function() {
+          map.setZoom(8);
+          map.setCenter(marker.getPosition());
+        });
+      }
+*/
     </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key= AIzaSyBQSL5tVuZg3hKINePeRXtGus2I93sHJyo&callback=initMap">
@@ -148,33 +212,32 @@ article {
 
   
 <nav>
-	<form>
-	<p> <i>Name: </i></p>
-	<input type="text">
+  <form>
+  <p> <i>Name: </i></p>
+  <input type="text">
     <br>
-	<p> <i>Upload Data: </i></p>
+  <p> <i>Upload Data: </i></p>
 
-	<input type="text" id="geoData" /><br>
-	<br>
-	<input type="button" value="Plot data" onclick="addMarker()">
-	</form>
-	<br>
-	<br>
-	From Date: 
-	<br>
-	<input type="date" id="fromDate">
-	<br> <br>
+  <textarea type="text" rows="4" cols="17" id="geoData" ></textarea>
+  <br>
+  <input type="button" class="button" value="Plot data" onclick="addMarker()">
+  </form>
+  <br>
+  <br>
+  From Date: 
+  <br>
+  <input type="date" id="fromDate">
+  <br> <br>
 
  To Date: 
   <br>
   <input type="date" id = "toDate">
   <br>
 
-  <br><br>
+  
+<input type="button" class="button" value="Plot data" onclick="addMarkerWithFilters()">
 
-<input type="button" value="Plot data" onclick="addMarkerWithFilters()">
-
-  <br><br><br><br><br>
+  <br><br><br>
 </nav>
 
 <article>
