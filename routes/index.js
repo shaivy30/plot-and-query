@@ -29,6 +29,10 @@ router.get('/maps', function(req, res, next) {
   res.sendFile(path.join(__dirname,'../','map_page.html'));
 });
 
+router.get('/street-view',function(req,res,next){
+	res.sendFile(path.join(__dirname,'../','street-view.html'));
+});
+
 router.post('/user', function(req,res){
 	
 	// take username

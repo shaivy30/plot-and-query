@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Street View side-by-side</title>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map, #pano {
+        float: left;
+        height: 80%;
+        width: 40%;
+      }
+      #geoData{
+        float:left;
+        width:15%;
+        border: 1px solid black;
+        height: 80%;
+      }
+
+    </style>
+
+    <script>
+      var map;
+      function initialize() {
+        var fenway = {lat: 42.345573, lng: -71.098326};
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: fenway,
+          zoom: 14
+        });
+        var panorama = new google.maps.StreetViewPanorama(
+            document.getElementById('pano'), {
+              position: fenway,
+              pov: {
+                heading: 34,
+                pitch: 10
+              }
+            });
+        map.setStreetView(panorama);
+      }
+
+      function getStreetView(){
+          var geoData = JSON.parse(document.getElementById("geoDataBox").value);    
+
+          var fenway = {
+            lat: geoData.lat,
+            lng: geoData.lng
+          };
+
+          map = new google.maps.Map(document.getElementById('map'), {
+          center: fenway,
+          zoom: 14
+          });
+
+          var panorama = new google.maps.StreetViewPanorama(
+            document.getElementById('pano'), {
+              position: fenway,
+              pov: {
+                heading: 34,
+                pitch: 10
+              }
+            });
+        map.setStreetView(panorama);
+
+        }      
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key= AIzaSyBQSL5tVuZg3hKINePeRXtGus2I93sHJyo&callback=initialize">
+    </script>
+
+  </head>
+
+  <body>
+    <div id = "geoData">
+        <p> <i>Upload your location: </i></p>
+
+        <input type="text" rows="4"  id="geoDataBox" ></input>
+        <br><br>
+        <input type="button" class="button" value="Street View" onclick="getStreetView()">
+    </div>
+    <div id="map"></div>
+    <div id="pano"></div>
+
+
+    </body>
+</html>
